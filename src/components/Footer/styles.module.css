@@ -1,0 +1,9 @@
+.footer {
+  font-size: 1.4rem;
+  color: var(--text--over-primary);
+  text-align: center;
+}
+
+.footer a {
+  color: var(--primary);
+}
