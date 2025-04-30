@@ -1,6 +1,8 @@
 import { Container } from "./components/Container";
-import { Heading } from "./components/Heading";
+import { CountDown } from "./components/CountDown";
+import { Form } from "./components/Form";
 import { Logo } from "./components/Logo";
+import { Menu } from "./components/Menu";
 
 function App() {
   return (
@@ -10,15 +12,15 @@ function App() {
       </Container>
 
       <Container>
-        <Heading>MENU</Heading>
+        <Menu />
       </Container>
 
       <Container>
-        <Heading>FORM</Heading>
+        <CountDown />
       </Container>
 
       <Container>
-        <Heading>FOOTER</Heading>
+        <Form />
       </Container>
     </>
   );
