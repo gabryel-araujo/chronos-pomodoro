@@ -17,7 +17,7 @@ export function Form() {
       </div>
 
       <div className={styles.formRow}>
-        <p>Lorem ipsum dolor sit amet.</p>
+        <p>O próximo intervalo é de 25 min</p>
       </div>
 
       <div className={styles.formRow}>
