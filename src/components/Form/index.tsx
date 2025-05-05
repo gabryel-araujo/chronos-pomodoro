@@ -8,10 +8,10 @@ import { TaskModel } from "../../models/TaskModel";
 import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
 import { getNextCycle } from "../../utils/getNextCycle";
 import { getNextCycleType } from "../../utils/getNextCycleType";
-import { formatSecondsToMinutes } from "../../utils/formatSecondsToMinutes";
+import { TaskActionTypes } from "../../contexts/TaskContext/taskActions";
 
 export function Form() {
-  const { state, setState } = useTaskContext();
+  const { state, dispatch } = useTaskContext();
   const inputRef = useRef<HTMLInputElement>(null);
   const nextCycle = getNextCycle(state.currentCycle);
   const nextCycleType = getNextCycleType(nextCycle);
@@ -37,36 +37,28 @@ export function Form() {
       type: nextCycleType,
     };
 
-    const secondsRemaining = newTask.duration * 60;
-
-    setState((prev) => {
-      return {
-        ...prev,
-        activeTask: newTask,
-        currentCycle: nextCycle,
-        formattedsecondsRemaining: formatSecondsToMinutes(secondsRemaining),
-        secondsRemaining,
-        tasks: [...prev.tasks, newTask],
-      };
-    });
+    dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
   }
 
   function handleInterruptTask() {
-    setState((prev) => {
-      return {
-        ...prev,
-        activeTask: null,
-        formattedsecondsRemaining: "00:00",
-        secondsRemaining: 0,
-        tasks: prev.tasks.map((task) => {
-          if (prev.activeTask && prev.activeTask.id === task.id) {
-            return { ...task, interruptDate: Date.now() };
-          }
-          return task;
-        }),
-      };
-    });
+    dispatch({ type: TaskActionTypes.INTERRUPT_TASK });
   }
+
+  const tipsForActiveTask = {
+    workTime: <p>Foque por {state.config.workTime} min</p>,
+    shortBreakTime: <p>Descanse {state.config.shortBreakTime} min</p>,
+    longBreakTime: <p>Descanse por {state.config.longBreakTime} min</p>,
+  };
+
+  const tipsForNoActiveTask = {
+    workTime: <p>O próximo ciclo será de {state.config.workTime} min</p>,
+    shortBreakTime: (
+      <p>O próximo descanso será de {state.config.shortBreakTime} min</p>
+    ),
+    longBreakTime: (
+      <p>O próximo descanso longo será de {state.config.longBreakTime} min</p>
+    ),
+  };
 
   return (
     <form onSubmit={handleSubmit} className={styles.form} action="">
@@ -82,7 +74,8 @@ export function Form() {
       </div>
 
       <div className={styles.formRow}>
-        <p>O próximo intervalo é de 25 min</p>
+        {state.activeTask && tipsForActiveTask[state.activeTask.type]}
+        {!state.activeTask && tipsForNoActiveTask[nextCycleType]}
       </div>
 
       {state.currentCycle > 0 && (
