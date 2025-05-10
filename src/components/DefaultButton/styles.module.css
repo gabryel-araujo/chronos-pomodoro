@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 24rem;
+  width: 24rem;
   padding: 0.8rem;
   border-radius: 0.8rem;
   margin: 3.2rem 0;
@@ -30,4 +30,9 @@
 .green {
   background-color: var(--primary);
   color: var(--text-over-error);
+}
+
+.square {
+  width: 4.8rem;
+  height: 4.8rem;
 }
