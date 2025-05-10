@@ -36,7 +36,15 @@ export function taskReducer(
       };
     }
     case TaskActionTypes.RESET_STATE: {
-      return state;
+      localStorage.removeItem("data");
+      return {
+        ...state,
+        tasks: [],
+        secondsRemaining: 0,
+        formattedsecondsRemaining: "00:00",
+        activeTask: null,
+        currentCycle: 0,
+      };
     }
     case TaskActionTypes.COUNTDOWN: {
       return {

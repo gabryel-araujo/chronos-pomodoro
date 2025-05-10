@@ -48,6 +48,7 @@ export function TaskContextProvider({ children }: TaskContextProviderProps) {
       worker.terminate();
     }
     worker.postMessage(state);
+    localStorage.setItem("data", JSON.stringify(state));
   }, [worker, state]);
 
   useEffect(() => {
