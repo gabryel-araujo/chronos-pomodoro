@@ -1,0 +1,45 @@
+.tableContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table {
+  border-spacing: 0;
+}
+
+.tableHead th {
+  width: 20rem;
+  padding: 1.4rem;
+  column-gap: 0;
+}
+
+.tableHead th:first-child {
+  border-top-left-radius: 0.8rem;
+}
+
+.tableHead th:last-child {
+  border-top-right-radius: 0.8rem;
+}
+
+.tableHead {
+  background-color: var(--gray-700);
+  color: var(--gray-100);
+}
+
+.tableData {
+  background-color: var(--gray-800);
+  width: 100%;
+  padding: 1rem;
+}
+
+.tableData td {
+  padding: 1.4rem;
+  text-align: center;
+  border-bottom: 0.1rem solid var(--gray-700);
+}
+
+.tableData:hover {
+  filter: brightness(80%);
+  cursor: pointer;
+}
