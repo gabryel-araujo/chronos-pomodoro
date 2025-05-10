@@ -6,7 +6,8 @@ import {
   SunIcon,
 } from "lucide-react";
 import styles from "./styles.module.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { pageContext } from "../../contexts/PageContext/pageContext";
 
 type avaliableThemes = "dark" | "light";
 
@@ -15,6 +16,8 @@ export function Menu() {
     const theme = (localStorage.getItem("theme") as avaliableThemes) || "dark";
     return theme;
   });
+
+  const { setPage } = useContext(pageContext);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -41,6 +44,10 @@ export function Menu() {
         className={styles.menuLink}
         aria-label="Ir para a home"
         title="Home"
+        onClick={(e) => {
+          e.preventDefault();
+          setPage("main");
+        }}
       >
         <HouseIcon />
       </a>
@@ -49,6 +56,10 @@ export function Menu() {
         className={styles.menuLink}
         aria-label="Ver histórico"
         title="Histórico"
+        onClick={(e) => {
+          e.preventDefault();
+          setPage("history");
+        }}
       >
         <HistoryIcon />
       </a>
