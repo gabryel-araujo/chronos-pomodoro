@@ -1,12 +1,6 @@
 import { TaskStateModel } from "../../models/TaskStateModel";
 
 function loadInitialState(): TaskStateModel {
-  const savedData = localStorage.getItem("data");
-
-  if (savedData) {
-    return JSON.parse(savedData);
-  }
-
   return {
     tasks: [],
     secondsRemaining: 0,
