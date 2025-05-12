@@ -9,6 +9,7 @@ import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
 import { getNextCycle } from "../../utils/getNextCycle";
 import { getNextCycleType } from "../../utils/getNextCycleType";
 import { TaskActionTypes } from "../../contexts/TaskContext/taskActions";
+import { toast } from "sonner";
 
 export function Form() {
   const { state, dispatch } = useTaskContext();
@@ -23,7 +24,7 @@ export function Form() {
 
     const taskName = inputRef.current.value.trim();
     if (!taskName) {
-      alert("A task precisa ter um nome");
+      toast.info("A task precisa ter um nome");
       return;
     }
 
