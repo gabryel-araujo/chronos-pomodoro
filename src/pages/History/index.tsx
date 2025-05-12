@@ -4,19 +4,31 @@ import { DefaultButton } from "../../components/DefaultButton";
 import { Heading } from "../../components/Heading";
 import { MainTemplate } from "../../templates/MainTemplate";
 import styles from "./style.module.css";
-import { taskReducer } from "../../contexts/TaskContext/taskReducer";
-import { initialTaskState } from "../../contexts/TaskContext/intialTaskState";
-import { useReducer } from "react";
 import { TaskActionTypes } from "../../contexts/TaskContext/taskActions";
+import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
+import { TaskModel } from "../../models/TaskModel";
+import { formatDate } from "../../utils/formatDate";
+import { toast } from "sonner";
 
 export function History() {
-  const [state, dispatch] = useReducer(taskReducer, initialTaskState);
+  const { state, dispatch } = useTaskContext();
 
   const typeTaskDict = {
     workTime: "Foco",
     shortBreakTime: "Descanso curto",
     longBreakTime: "Descanso Longo",
   };
+
+  function handleCheckTask(task: TaskModel): string {
+    if (task.completeDate !== null) {
+      return "Concluída";
+    } else if (task.interruptDate !== null) {
+      return "Interrompida";
+    } else if (task.id === state.activeTask?.id) {
+      return "Em andamento";
+    }
+    return "Abandonada";
+  }
 
   return (
     <MainTemplate>
@@ -28,6 +40,7 @@ export function History() {
             icon={<Trash2 color="white" />}
             square={true}
             onClick={() => {
+              toast.success("Histórico deletado!");
               dispatch({ type: TaskActionTypes.RESET_STATE });
             }}
           ></DefaultButton>
@@ -52,10 +65,8 @@ export function History() {
                   <tr className={styles.tableData} key={task.id}>
                     <td scope="row">{task.name}</td>
                     <td>{task.duration} min</td>
-                    <td>
-                      {new Date(task.startDate).toLocaleDateString("pt-BR")}
-                    </td>
-                    <td>{task.interruptDate ? "Interrompida" : "Concluída"}</td>
+                    <td>{formatDate(task.startDate)}</td>
+                    <td>{handleCheckTask(task)}</td>
                     <td>{typeTaskDict[task.type]}</td>
                   </tr>
                 );
