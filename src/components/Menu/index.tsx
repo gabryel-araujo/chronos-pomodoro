@@ -6,8 +6,8 @@ import {
   SunIcon,
 } from "lucide-react";
 import styles from "./styles.module.css";
-import { useContext, useEffect, useState } from "react";
-import { pageContext } from "../../contexts/PageContext/pageContext";
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
 
 type avaliableThemes = "dark" | "light";
 
@@ -16,8 +16,6 @@ export function Menu() {
     const theme = (localStorage.getItem("theme") as avaliableThemes) || "dark";
     return theme;
   });
-
-  const { setPage } = useContext(pageContext);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -39,38 +37,30 @@ export function Menu() {
 
   return (
     <nav className={styles.menu}>
-      <a
-        href="#"
+      <Link
+        to="/"
         className={styles.menuLink}
         aria-label="Ir para a home"
         title="Home"
-        onClick={(e) => {
-          e.preventDefault();
-          setPage("main");
-        }}
       >
         <HouseIcon />
-      </a>
-      <a
-        href="#"
+      </Link>
+      <Link
+        to="/history"
         className={styles.menuLink}
         aria-label="Ver histórico"
         title="Histórico"
-        onClick={(e) => {
-          e.preventDefault();
-          setPage("history");
-        }}
       >
         <HistoryIcon />
-      </a>
-      <a
-        href="#"
+      </Link>
+      <Link
+        to="/config"
         className={styles.menuLink}
         aria-label="Ir para as configurações"
         title="Configurações"
       >
         <SettingsIcon />
-      </a>
+      </Link>
       <a
         href="#"
         className={styles.menuLink}
