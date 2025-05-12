@@ -6,13 +6,27 @@ import { TimerWorkerManager } from "../../workers/TimerWorkerManager";
 import { TaskActionTypes } from "./taskActions";
 import { loadBeep } from "../../utils/loadBeep";
 import { formatSecondsToMinutes } from "../../utils/formatSecondsToMinutes";
+import { TaskStateModel } from "../../models/TaskStateModel";
 
 type TaskContextProviderProps = {
   children: React.ReactNode;
 };
 
 export function TaskContextProvider({ children }: TaskContextProviderProps) {
-  const [state, dispatch] = useReducer(taskReducer, initialTaskState);
+  const [state, dispatch] = useReducer(taskReducer, initialTaskState, () => {
+    const storedData = localStorage.getItem("data");
+
+    if (storedData === null) return initialTaskState;
+
+    const parsedStorageState = JSON.parse(storedData) as TaskStateModel;
+
+    return {
+      ...parsedStorageState,
+      activeTask: null,
+      secondsRemaining: 0,
+      formattedSecondsRemaining: "00:00",
+    };
+  });
   const playBeepRef = useRef<() => void | null>(null);
   const titleApplication = document.getElementById("title-application");
 
